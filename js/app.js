@@ -48,7 +48,7 @@ AFRAME.registerComponent('cameratransform', {
 
         this.el.object3D.matrix.clone().decompose(camtr, camro, camsc);
 
-        const projection = this.el.components.camera.camera.projectionMatrix.clone();
+        const projection = this.el.components.camera.el.projectionMatrix.clone();
         const serializedProj = `${[...projection.elements]}`
 
         const posCam = `${[...camtr.toArray()]}`
