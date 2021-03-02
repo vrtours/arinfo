@@ -46,6 +46,9 @@ AFRAME.registerComponent('cameratransform', {
         let camro = new THREE.Quaternion();
         let camsc = new THREE.Vector3();
 
+        var worldPos = new THREE.Vector3();
+        worldPos.setFromMatrixPosition( this.el.object3D.matrixWorld);
+
         this.el.object3D.matrix.clone().decompose(camtr, camro, camsc);
 
         const projection = this.el.components.camera.camera.projectionMatrix.clone();
@@ -53,10 +56,11 @@ AFRAME.registerComponent('cameratransform', {
 
         const posCam = `${[...camtr.toArray()]}`
         const rotCam = `${[...camro.toArray()]}`
+        const worldPosCam = `${[...worldPos.toArray()]}`
  
         if(isCameraReady){
             unityInstance.SendMessage("Main Camera", "setProjection", serializedProj);
-            unityInstance.SendMessage("Main Camera", "setPosition", posCam);
+            unityInstance.SendMessage("Main Camera", "setPosition", worldPosCam);
             unityInstance.SendMessage("Main Camera", "setRotation", rotCam);
 
             let w = window.innerWidth;
