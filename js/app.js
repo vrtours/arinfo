@@ -59,8 +59,20 @@ AFRAME.registerComponent('cameratransform', {
         const worldPosCam = `${[...worldPos.toArray()]}`
  
         if(isCameraReady){
+
+            var position = new THREE.Vector3();
+            var quaternion = new THREE.Quaternion();
+        
+            return function () {
+              this.el.object3D.getWorldPosition(position);
+              this.el.object3D.getWorldQuaternion(quaternion);
+              // position and rotation now contain vector and quaternion in world space.
+            };
+
+             rotCam = `${[...quaternion.toArray()]}`
+             posCam = `${[...position.toArray()]}`
             unityInstance.SendMessage("Main Camera", "setProjection", serializedProj);
-            unityInstance.SendMessage("Main Camera", "setPosition", worldPosCam);
+            unityInstance.SendMessage("Main Camera", "setPosition", posCam);
             unityInstance.SendMessage("Main Camera", "setRotation", rotCam);
 
             let w = window.innerWidth;
